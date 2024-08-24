@@ -14,71 +14,129 @@ class _InputfieldformState extends State<InputFieldForm> {
   Widget build(BuildContext context) {
     var appState = context.watch<AppState>();
 
-    TextEditingController userLoad = TextEditingController();
-    TextEditingController responseTime = TextEditingController();
-    TextEditingController iterPerHr = TextEditingController();
-    TextEditingController thinkTime = TextEditingController();
+    final userLoadController = TextEditingController();
+    final responseTimeController = TextEditingController();
+    final iterPerHrController = TextEditingController();
+    final thinkTimeController = TextEditingController();
 
-    return const Column(
+    void printLatestValue() {
+      final text = userLoadController.text;
+      print('Second text field: $text (${text.characters.length})');
+    }
+
+    @override
+    void initState() {
+      super.initState();
+
+      // Start listening to changes.
+      userLoadController.addListener(printLatestValue);
+    }
+
+    @override
+    void dispose() {
+      userLoadController.dispose();
+      super.dispose();
+    }
+
+    void setUserLoad(String text) {
+      appState.userLoad = int.parse(text);
+    }
+
+    void setResponseTime(String text) {
+      appState.responseTime = int.parse(text);
+    }
+
+    void setIterationPerHr(String text) {
+      appState.iterationPrHr = int.parse(text);
+    }
+
+    void setThinkTime(String text) {
+      appState.thinkTime = int.parse(text);
+    }
+
+    return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
         SizedBox(
           width: 300,
           child: TextField(
-            // controller: ,
-            keyboardType:
-                TextInputType.numberWithOptions(signed: false, decimal: false),
-            decoration: InputDecoration(
+            controller: userLoadController,
+            onChanged: (text) {
+              print('First text field: $text (${text.characters.length})');
+              setUserLoad(text);
+              // appState.setUserLoad(text);
+            },
+            keyboardType: const TextInputType.numberWithOptions(
+                signed: false, decimal: false),
+            decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'User Load',
                 helperText: 'No. of Users (Threads)'),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
         SizedBox(
           width: 300,
-          child: TextField(
-            keyboardType:
-                TextInputType.numberWithOptions(signed: false, decimal: false),
-            decoration: InputDecoration(
+          child: TextFormField(
+            controller: responseTimeController,
+            onChanged: (text) {
+              print('First text field: $text (${text.characters.length})');
+              setResponseTime(text);
+              // appState.setUserLoad(text);
+            },
+            keyboardType: const TextInputType.numberWithOptions(
+                signed: false, decimal: false),
+            decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Response time (in sec.)',
                 helperText: 'End to end time to complete one iteration'),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
         SizedBox(
           width: 300,
           child: TextField(
-            keyboardType:
-                TextInputType.numberWithOptions(signed: false, decimal: false),
-            decoration: InputDecoration(
+            controller: iterPerHrController,
+            onChanged: (text) {
+              print('First text field: $text (${text.characters.length})');
+              setIterationPerHr(text);
+              // appState.setUserLoad(text);
+            },
+            keyboardType: const TextInputType.numberWithOptions(
+                signed: false, decimal: false),
+            decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Iterations Per Hour',
                 helperText: 'No. of Iterations per hour'),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
         SizedBox(
           width: 300,
           child: TextField(
-            keyboardType:
-                TextInputType.numberWithOptions(signed: false, decimal: false),
-            decoration: InputDecoration(
+            controller: thinkTimeController,
+            onChanged: (text) {
+              print('First text field: $text (${text.characters.length})');
+              setThinkTime(text);
+              // appState.setUserLoad(text);
+            },
+            keyboardType: const TextInputType.numberWithOptions(
+                signed: false, decimal: false),
+            decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Total think time (in sec.)',
                 helperText: 'Sum of all think time used in script'),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
       ],

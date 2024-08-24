@@ -3,6 +3,7 @@ import 'package:pacing_calculator/src/input_field_form.dart';
 import 'package:pacing_calculator/src/solution_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:slider_button/slider_button.dart';
+import 'package:toastification/toastification.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -24,14 +25,38 @@ class App extends StatelessWidget {
 }
 
 class AppState extends ChangeNotifier {
-  int userLoad = 1000;
+  // TextEditingController userLoadController = TextEditingController();
+
+  int userLoad = 0;
   int responseTime = 0;
   int iterationPrHr = 0;
   int thinkTime = 0;
 
-  void addUserLoad(int userLoad) {
-    userLoad = userLoad;
+  setUserLoad(int userLoadStr) {
+    userLoad = userLoadStr;
     notifyListeners();
+  }
+
+  setResponseTime(int responseTimeStr) {
+    responseTime = responseTimeStr;
+    notifyListeners();
+  }
+
+  setIterationPerHr(int iterationPerHrStr) {
+    iterationPrHr = iterationPerHrStr;
+    notifyListeners();
+  }
+
+  setThinkTime(int thinkTimeStr) {
+    thinkTime = thinkTimeStr;
+    notifyListeners();
+  }
+
+  resetData() {
+    userLoad = 0;
+    responseTime = 0;
+    iterationPrHr = 0;
+    thinkTime = -1;
   }
 }
 
@@ -82,13 +107,40 @@ class SliderButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliderButton(
       action: () async {
-        print(appState.userLoad.toString());
+        if (appState.userLoad <= 0 ||
+            appState.responseTime <= 0 ||
+            appState.iterationPrHr <= 0 ||
+            appState.thinkTime <= -1) {
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (BuildContext context, Animation<double> animation1,
+                  Animation<double> animation2) {
+                return const HomePage();
+              },
+              transitionDuration: Duration.zero,
+              reverseTransitionDuration: Duration.zero,
+            ),
+          );
+          // appState.resetData();
+          toastification.show(
+            type: ToastificationType.error,
+            context: context, // optional if you use ToastificationWrapper
+            title: const Text('Please fill out all the fields!!!'),
+            autoCloseDuration: const Duration(seconds: 2),
+          );
+
+          return true;
+        }
+
         Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const SolutionScreen()))
             .then((_) {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const HomePage()));
+          appState.resetData();
         });
+
         return true;
       },
       label: const Text(
