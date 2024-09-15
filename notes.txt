@@ -1,0 +1,21 @@
+main.dart -> is the main entry point of the flutter 
+runApp(const App()) -> is the root of the application inside the main function
+
+
+Flutter has specific widgets for Android and IOS in its material class.
+- Android widgets are designed according to material guidelines and called as material widgets.
+- IOS widgets are designed according to human interface guidelines of apple and called as CUPERTINO widgets.
+
+There are 2 types of widgets (building blocks of all the widgets that flutter provides.)
+1. Stateless Widget -> contains only widget (can't change there state during run time of the app)
+2. Stateful Widget -> maintains the state and can change there state during run time so we can redrawn for as many times as we want
+
+*const keyword is used when the value of variable is known at the compile time of the application and which never changes. So helps to render the widget faster and in advance.
+
+build method -> https://api.flutter.dev/flutter/widgets/StatelessWidget/build.html
+1. Describes the part of the user interface represented by this widget.
+2. The framework calls this method when this widget is inserted into the tree in a given `BuildContext` and when the dependencies of this widget change
+3. This method can potentially be called in every frame and should not have any side effects beyond building a widget.
+4. It always returns the widget
+
+

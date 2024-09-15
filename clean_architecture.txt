@@ -1,0 +1,6 @@
+Clean architecture
+------------------
+- Separation of concerns.
+- Created app should be readable, scalable, testable and easily be maintained at any time
+- 3 layers Data -> Domain -> Presentation (Feature) also 2 additional supporting layers [resources & shared libraries]
+- 
